@@ -418,8 +418,8 @@ async function fetchOne(j) {
   for (const query of tiers) {
     try {
       const url = `${CR}/${j.issn}/works?query=${encodeURIComponent(query)}` +
-        `&filter=from-pub-date:2019-01-01,type:journal-article,has-abstract:1` +
-        `&sort=relevance&rows=100` +
+        `&filter=from-pub-date:2019-01-01,until-pub-date:${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}-${String(new Date().getDate()).padStart(2,'0')},type:journal-article,has-abstract:1` +
+        `&sort=published&order=desc&rows=100` +
         `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
 
       const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
