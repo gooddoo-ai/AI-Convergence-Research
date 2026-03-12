@@ -355,14 +355,15 @@ async function load() {
 // ================================================================
 async function fetchOne(j) {
   const url = `${CR}/${j.issn}/works?query=${encodeURIComponent(j.q)}` +
-    `&filter=from-pub-date:2020-01-01&sort=relevance&rows=100` +
+    `&filter=from-pub-date:2020-01-01,type:journal-article,has-abstract:1&sort=relevance&rows=100` +
     `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
   try {
     const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const d = await r.json();
     const items = (d?.message?.items || []).filter(it =>
-      it.title?.[0] && it.title[0].length > 30
+      it.title?.[0] && it.title[0].length > 30 &&
+      it.abstract && it.abstract.length > 50
     );
     if (!items.length) throw new Error('결과 없음');
 
@@ -383,34 +384,43 @@ async function fetchOne(j) {
 }
 
 // ================================================================
-// MyMemory translation (free, no API key, CORS open)
-// Limit: ~500 chars per request, ~5000 chars/day free
+// MyMemory translation — chunk full abstract, join results
+// Free tier: 500 chars/request, no API key needed
 // ================================================================
 async function translate(p) {
-  // Trim abstract to 500 chars for free tier
-  const text = p.abstract.slice(0, 500);
-  try {
-    const url = `${MT}?q=${encodeURIComponent(text)}&langpair=en|ko`;
-    const r = await fetch(url, { signal: AbortSignal.timeout(12000) });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const d = await r.json();
+  const CHUNK = 480;
+  const text  = p.abstract;
 
-    // MyMemory returns status 200 even for errors — check responseStatus
-    if (d.responseStatus === 200 && d.responseData?.translatedText) {
-      let t = d.responseData.translatedText;
-      // Sometimes returns English back if quota exceeded
-      if (isKorean(t)) {
-        p.summaryKo = t;
-        patchCard(p);
-        return;
-      }
-    }
-    // Fallback: quota likely exceeded, use original snippet
-    throw new Error('번역 결과 없음 (할당량 초과 가능)');
-  } catch (err) {
-    p.summaryKo = `[번역 대기] ${p.abstract.slice(0, 300)}…`;
-    patchCard(p);
+  // Split into sentence-aware chunks under 480 chars
+  const chunks = [];
+  let cur = '';
+  for (const sent of text.split(/(?<=\.\s+)/)) {
+    if ((cur + sent).length > CHUNK && cur) { chunks.push(cur.trim()); cur = sent; }
+    else cur += sent;
   }
+  if (cur.trim()) chunks.push(cur.trim());
+
+  const translated = [];
+  for (let i = 0; i < chunks.length; i++) {
+    try {
+      const url = `${MT}?q=${encodeURIComponent(chunks[i])}&langpair=en|ko`;
+      const r = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d = await r.json();
+      if (d.responseStatus === 200 && d.responseData?.translatedText) {
+        const t = d.responseData.translatedText;
+        translated.push(isKorean(t) ? t : chunks[i]); // fallback to original chunk
+      } else {
+        translated.push(chunks[i]);
+      }
+    } catch {
+      translated.push(chunks[i]); // keep original chunk on error
+    }
+    if (i < chunks.length - 1) await sleep(250); // polite delay between chunks
+  }
+
+  p.summaryKo = translated.join(' ');
+  patchCard(p);
 }
 
 // Check if string contains Korean characters
