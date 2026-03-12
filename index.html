@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI×Materials Daily</title>
+<title>Daily Lab News</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -226,8 +226,7 @@ main { padding: 1.1rem 1rem 4rem; }
     <div class="logo">
       <div class="logo-icon">⚛</div>
       <div>
-        <div class="logo-name">AI×Materials Daily</div>
-        <div class="logo-sub">CrossRef API · 실제 논문</div>
+        <div class="logo-name">Daily Lab News</div>
       </div>
     </div>
     <div class="hdate" id="hdate"></div>
@@ -599,7 +598,7 @@ function x(s) {
   const d = new Date();
   document.getElementById('hdate').textContent =
     d.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
-  document.title = `AI×Materials Daily — ${d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'})}`;
+  document.title = `Daily Lab News — ${d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'})}`;
   renderChips();
   load();
 })();
