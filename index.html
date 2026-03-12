@@ -190,6 +190,47 @@ vertical-align: middle; margin-right: .32rem;
 ::-webkit-scrollbar-track { background: #f0f2f7; }
 ::-webkit-scrollbar-thumb { background: #ccd; border-radius: 3px; }
 
+/* ── Keyword search bar ─────────────────── */
+.kwbox {
+display: flex; gap: .6rem; align-items: center;
+background: #fff; border: 1px solid #d8dae6;
+border-radius: 13px; padding: .7rem 1rem;
+margin-bottom: 1.3rem;
+box-shadow: 0 1px 6px rgba(0,0,0,.05);
+}
+.kwbox-icon { font-size: 1.1rem; flex-shrink: 0; }
+.kw-inner { flex: 1; display: flex; flex-direction: column; gap: .28rem; }
+.kw-label { font-family: ‘Space Mono’, monospace; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; color: #9090aa; }
+.kw-row { display: flex; gap: .5rem; align-items: center; }
+.kw-input {
+flex: 1; border: 1px solid #d8dae6; border-radius: 8px;
+padding: .4rem .7rem; font-size: .82rem; font-family: ‘Noto Sans KR’, sans-serif;
+color: #1a1a2e; outline: none; background: #f8f9fc;
+transition: border-color .15s, box-shadow .15s;
+}
+.kw-input:focus { border-color: #4356e8; box-shadow: 0 0 0 3px rgba(67,86,232,.1); background: #fff; }
+.kw-input::placeholder { color: #b0b0c0; }
+.kw-btn {
+background: linear-gradient(135deg, #4356e8, #00a98a);
+border: none; border-radius: 8px; color: #fff;
+padding: .4rem 1rem; font-size: .76rem; font-family: ‘Noto Sans KR’, sans-serif;
+font-weight: 600; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+box-shadow: 0 2px 8px rgba(67,86,232,.25);
+transition: opacity .15s, transform .15s;
+}
+.kw-btn:hover { opacity: .85; transform: translateY(-1px); }
+.kw-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.kw-chips { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .15rem; }
+.kw-chip {
+background: #f0f1ff; border: 1px solid #c8cdf5;
+border-radius: 12px; padding: .15rem .55rem;
+font-size: .63rem; color: #4356e8; font-family: ‘Noto Sans KR’, sans-serif;
+}
+.kw-chip.active {
+background: #4356e8; border-color: #4356e8; color: #fff;
+font-weight: 700;
+}
+
 @media (max-width: 680px) {
 .grid { grid-template-columns: 1fr; }
 .hinner { padding: 0 1rem; }
@@ -221,6 +262,22 @@ main { padding: 1.1rem 1rem 4rem; }
     CrossRef API로 실제 출판 논문을 검색하고,
     <strong>MyMemory 무료 번역 API</strong>로 영문 초록을 한국어로 번역합니다.
     새로고침마다 다른 논문이 표시됩니다.
+  </div>
+
+  <!-- Keyword search bar -->
+
+  <div class="kwbox">
+    <div class="kwbox-icon">🔍</div>
+    <div class="kw-inner">
+      <div class="kw-label">추가 키워드 검색 (최우선 적용)</div>
+      <div class="kw-row">
+        <input class="kw-input" id="kwInput" type="text"
+          placeholder="예: wearable sensor, triboelectric, hydrogel actuator..."
+          onkeydown="if(event.key==='Enter') applyKeyword()">
+        <button class="kw-btn" id="kwBtn" onclick="applyKeyword()">🔄 업데이트</button>
+      </div>
+      <div class="kw-chips" id="kwChips"></div>
+    </div>
   </div>
 
   <div class="briefbox">
@@ -286,6 +343,27 @@ const JOURNALS = [
   { id:'Nature Machine Intelligence',   short:'Nat.MI',     issn:'2522-5839', color:'#1bada0', bg:'#edfaf9',
     q:'materials chemistry robotics synthesis drug protein electronic' },
 ];
+
+// ================================================================
+// BASE TOPICS — always included in every journal query
+// ================================================================
+const BASE_TOPICS = [
+  'soft robotics', 'functional materials', 'machine learning',
+  'smart contact lens', 'smart robot', 'perovskite',
+  'image sensing', 'artificial blood vessel',
+  'meniscus guided printing', 'electrochromic'
+].join(' ');
+
+let customKeyword = ''; // user-entered keyword (highest priority)
+
+// Build query: custom keyword first (most relevant), then base topics
+function buildQuery(journalQ) {
+  const parts = [];
+  if (customKeyword.trim()) parts.push(customKeyword.trim());
+  parts.push(BASE_TOPICS);
+  parts.push(journalQ);
+  return parts.join(' ');
+}
 
 const CR = 'https://api.crossref.org/journals';
 const MT = 'https://api.mymemory.translated.net/get';
@@ -354,7 +432,7 @@ async function load() {
 // CrossRef fetch — random every call
 // ================================================================
 async function fetchOne(j) {
-  const url = `${CR}/${j.issn}/works?query=${encodeURIComponent(j.q)}` +
+  const url = `${CR}/${j.issn}/works?query=${encodeURIComponent(buildQuery(j.q))}` +
     `&filter=from-pub-date:2020-01-01,type:journal-article,has-abstract:1&sort=relevance&rows=100` +
     `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
   try {
@@ -535,6 +613,47 @@ function patchCard(p) {
 // ================================================================
 // Filter / helpers
 // ================================================================
+// ================================================================
+// KEYWORD UPDATE
+// ================================================================
+function applyKeyword() {
+  const input = document.getElementById('kwInput');
+  const val = input.value.trim();
+  customKeyword = val;
+  renderChips();
+  // reload everything with new keyword
+  load();
+}
+
+function renderChips() {
+  const chips = document.getElementById('kwChips');
+  const baseList = BASE_TOPICS.split(', ').length > 1
+    ? BASE_TOPICS.split(' ')
+        .reduce((a, w) => { /* group back into phrases roughly */
+          if (a.length && a[a.length-1].split(' ').length < 2 && w.length > 3) {
+            a[a.length-1] += ' ' + w; return a;
+          }
+          a.push(w); return a;
+        }, [])
+    : [BASE_TOPICS];
+
+  const baseTopics = [
+    'soft robotics','functional materials','machine learning',
+    'smart contact lens','smart robot','perovskite',
+    'image sensing','artificial blood vessel',
+    'meniscus guided printing','electrochromic'
+  ];
+
+  let html = '';
+  if (customKeyword) {
+    html += `<span class="kw-chip active">✦ ${x(customKeyword)}</span>`;
+  }
+  baseTopics.forEach(t => {
+    html += `<span class="kw-chip">${x(t)}</span>`;
+  });
+  chips.innerHTML = html;
+}
+
 function setFilter(btn, f) {
   document.querySelectorAll('.ftag').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -560,6 +679,7 @@ function x(s) {
   document.getElementById('hdate').textContent =
     d.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
   document.title = `AI×Materials Daily — ${d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'})}`;
+  renderChips();
   load();
 })();
 </script>
