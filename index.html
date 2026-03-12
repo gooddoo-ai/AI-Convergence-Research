@@ -243,12 +243,12 @@ main { padding: 1.1rem 1rem 4rem; }
   <div class="filterbar">
     <span class="flabel">저널</span>
     <button class="ftag on"  onclick="setFilter(this,'all')">전체</button>
-    <button class="ftag" onclick="setFilter(this,'Advanced Functional Materials')">AFM</button>
-    <button class="ftag" onclick="setFilter(this,'Advanced Science')">Adv. Science</button>
-    <button class="ftag" onclick="setFilter(this,'Science Advances')">Sci. Advances</button>
-    <button class="ftag" onclick="setFilter(this,'Science Robotics')">Sci. Robotics</button>
-    <button class="ftag" onclick="setFilter(this,'Advanced Materials')">Adv. Materials</button>
-    <button class="ftag" onclick="setFilter(this,'Nature Communications')">Nat. Comm</button>
+    <button class="ftag" onclick="setFilter(this,'Advanced Functional Materials')">Advanced Functional Materials</button>
+    <button class="ftag" onclick="setFilter(this,'Advanced Science')">Advanced Science</button>
+    <button class="ftag" onclick="setFilter(this,'Science Advances')">Science Advances</button>
+    <button class="ftag" onclick="setFilter(this,'Science Robotics')">Science Robotics</button>
+    <button class="ftag" onclick="setFilter(this,'Advanced Materials')">Advanced Materials</button>
+    <button class="ftag" onclick="setFilter(this,'Nature Communications')">Nature Communications</button>
     <button class="ftag" onclick="setFilter(this,'Science')">Science</button>
     <button class="ftag" onclick="setFilter(this,'Nature')">Nature</button>
   </div>
@@ -389,49 +389,43 @@ async function load() {
 }
 
 // ================================================================
-// CrossRef fetch — with progressive fallback queries
+// CrossRef fetch — single clean query per journal, fast
 // ================================================================
-
-// Multiple query tiers: specific → broad → journal-only
-function buildQueryTiers(j) {
-  const custom = customKeyword.trim();
-  const base   = BASE_TOPICS;
-  const jq     = j.q;
-  const tiers  = [];
-
-  // Tier 1: custom keyword (if any) + base + journal-specific
-  if (custom) tiers.push(`${custom} ${base} ${jq}`);
-  // Tier 2: base topics + journal-specific
-  tiers.push(`${base} ${jq}`);
-  // Tier 3: just base topics (broad)
-  tiers.push(base);
-  // Tier 4: broad materials/AI/engineering terms — explicitly non-bio
-  tiers.push('materials machine learning device semiconductor photovoltaic actuator sensor electronics');
-
-  return tiers;
+function buildQuery(j) {
+  const parts = [];
+  if (customKeyword.trim()) parts.push(customKeyword.trim());
+  parts.push(j.q);
+  return parts.join(' ');
 }
 
 async function fetchOne(j) {
-  const tiers = buildQueryTiers(j);
+  // Try 2 queries: specific first, then broad fallback
+  const queries = [
+    buildQuery(j),
+    'machine learning materials device sensor actuator flexible electronics'
+  ];
 
-  for (const query of tiers) {
+  for (const query of queries) {
     try {
-      const url = `${CR}/${j.issn}/works?query=${encodeURIComponent(query)}` +
-        `&filter=from-pub-date:2019-01-01,until-pub-date:${new Date().getFullYear()}-${String(new Date().getMonth()+1).padStart(2,'0')}-${String(new Date().getDate()).padStart(2,'0')},type:journal-article,has-abstract:1` +
-        `&sort=published&order=desc&rows=100` +
+      // Keep URL short — CrossRef works better with concise queries
+      const q = encodeURIComponent(query.slice(0, 200));
+      const today = new Date();
+      const toDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+      const url = `${CR}/${j.issn}/works?query=${q}` +
+        `&filter=from-pub-date:2020-01-01,until-pub-date:${toDate},type:journal-article,has-abstract:1` +
+        `&sort=published&order=desc&rows=50` +
         `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
 
-      const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
-      if (!r.ok) continue;
+      const r = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      if (!r.ok) { console.warn(j.short, 'HTTP', r.status); continue; }
       const d = await r.json();
 
       const items = (d?.message?.items || []).filter(it =>
-        it.title?.[0] && it.title[0].length > 20 &&
-        it.abstract && it.abstract.length > 80
+        it.title?.[0] && it.title[0].length > 15 &&
+        it.abstract && it.abstract.length > 50
       );
-      if (!items.length) continue; // try next tier
+      if (!items.length) { console.warn(j.short, 'no items in tier'); continue; }
 
-      // Truly random pick — different every load
       const pick = items[Math.floor(Math.random() * items.length)];
       const authors = (pick.author || []).slice(0, 4)
         .map(a => `${a.family || ''} ${(a.given || '').charAt(0)}.`.trim())
@@ -444,11 +438,11 @@ async function fetchOne(j) {
 
       return { journal: j, title: pick.title[0], authors, year, doi, link, abstract, summaryKo: null, _id: null };
     } catch (err) {
-      continue; // try next tier
+      console.warn(j.id, 'fetch error:', err.message);
+      continue;
     }
   }
-  // All tiers failed
-  return { journal: j, title: null, error: '수집 실패 (모든 쿼리 시도 후 결과 없음)', _id: null };
+  return { journal: j, title: null, error: `연결 실패 — CrossRef에서 응답 없음`, _id: null };
 }
 
 // ================================================================
