@@ -410,7 +410,7 @@ async function fetchOne(j) {
       const toDate = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
       const url = `${CR}/${j.issn}/works?query=${q}` +
         `&filter=from-pub-date:2020-01-01,until-pub-date:${toDate},type:journal-article,has-abstract:1` +
-        `&sort=published&order=desc&rows=50` +
+        `&sort=relevance&rows=50` +
         `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
 
       const r = await fetch(url, { signal: AbortSignal.timeout(12000) });
