@@ -4,504 +4,494 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI×Materials Daily — 오늘의 융합연구</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<title>AI×Materials Daily</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#07080f; --surf:#0f1018; --card:#141520; --card2:#1a1b2e;
-    --b0:rgba(255,255,255,.06); --b1:rgba(255,255,255,.13);
-    --ac:#5b6af0; --ac2:#00d4aa;
-    --t0:#eeeef8; --t1:#8888aa; --t2:#4a4a6a;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--t0);font-family:'Noto Sans KR',sans-serif;min-height:100vh}
-  body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.011) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.011) 1px,transparent 1px);background-size:42px 42px;pointer-events:none;z-index:0}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ─── Header ─── */
-header{position:sticky;top:0;z-index:100;background:rgba(7,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(–b0)}
-.hi{max-width:1380px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:62px;gap:1rem}
-.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0}
-.lmark{width:36px;height:36px;background:conic-gradient(from 200deg,var(–ac),var(–ac2),var(–ac));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.lname{font-family:‘Space Mono’,monospace;font-size:.95rem;font-weight:700;letter-spacing:-.02em}
-.lsub{font-size:.58rem;color:var(–t2);letter-spacing:.12em;text-transform:uppercase;margin-top:1px}
-.hdate{font-family:‘Space Mono’,monospace;font-size:.72rem;color:var(–t2)}
-.go-btn{background:linear-gradient(135deg,var(–ac),var(–ac2));border:none;border-radius:9px;color:#fff;padding:.42rem 1.1rem;font-family:‘Noto Sans KR’,sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:opacity .2s,transform .2s;white-space:nowrap;flex-shrink:0}
-.go-btn:hover{opacity:.83;transform:translateY(-1px)}
-.go-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+html { background: #f0f2f7; }
 
-/* ─── Main ─── */
-main{max-width:1380px;margin:0 auto;padding:1.8rem 1.5rem 5rem;position:relative;z-index:1}
+body {
+background: #f0f2f7;
+color: #1a1a2e;
+font-family: ‘Noto Sans KR’, sans-serif;
+min-height: 100vh;
+}
 
-/* ─── How-it-works notice ─── */
-.how{background:rgba(0,212,170,.06);border:1px solid rgba(0,212,170,.2);border-radius:13px;padding:.85rem 1.3rem;margin-bottom:1.5rem;font-size:.77rem;line-height:1.65;color:#79c9b8}
-.how strong{color:var(–ac2)}
+/* ── Header ─────────────────────────────── */
+header {
+position: sticky; top: 0; z-index: 200;
+background: #ffffff;
+border-bottom: 1px solid #e0e2ea;
+box-shadow: 0 1px 8px rgba(0,0,0,.08);
+}
+.hinner {
+max-width: 1360px; margin: 0 auto;
+padding: 0 1.5rem; height: 60px;
+display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.logo { display: flex; align-items: center; gap: .7rem; }
+.logo-icon {
+width: 34px; height: 34px; border-radius: 9px;
+background: linear-gradient(135deg, #4356e8, #00a98a);
+display: flex; align-items: center; justify-content: center;
+font-size: 17px; flex-shrink: 0;
+}
+.logo-name { font-family: ‘Space Mono’, monospace; font-size: .92rem; font-weight: 700; color: #1a1a2e; }
+.logo-sub  { font-size: .58rem; color: #9090aa; letter-spacing: .1em; text-transform: uppercase; }
+.hdate { font-family: ‘Space Mono’, monospace; font-size: .7rem; color: #9090aa; }
+.reload-btn {
+background: linear-gradient(135deg, #4356e8, #00a98a);
+border: none; border-radius: 8px; color: #fff;
+padding: .42rem 1.1rem; font-size: .78rem; font-family: ‘Noto Sans KR’, sans-serif;
+font-weight: 500; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+box-shadow: 0 2px 10px rgba(67,86,232,.28);
+transition: opacity .2s, transform .15s;
+}
+.reload-btn:hover  { opacity: .85; transform: translateY(-1px); }
+.reload-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; }
 
-/* ─── AI Briefing ─── */
-.aibox{background:linear-gradient(135deg,rgba(91,106,240,.09),rgba(0,212,170,.055));border:1px solid rgba(91,106,240,.28);border-radius:18px;padding:1.5rem 1.8rem;margin-bottom:2rem;position:relative;overflow:hidden}
-.aibox::after{content:’’;position:absolute;top:-55px;right:-55px;width:190px;height:190px;background:radial-gradient(circle,rgba(91,106,240,.11),transparent 70%);border-radius:50%;pointer-events:none}
-.aibadge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(91,106,240,.16);border:1px solid rgba(91,106,240,.32);border-radius:20px;padding:.26rem .72rem;font-size:.66rem;font-family:‘Space Mono’,monospace;color:var(–ac);margin-bottom:.7rem;letter-spacing:.04em}
-.blink{animation:blink 2s infinite;color:var(–ac2)}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.aititle{font-family:‘Playfair Display’,serif;font-size:1.1rem;margin-bottom:.5rem}
-#aiText{font-size:.86rem;line-height:1.85;color:var(–t1)}
-#aiText.idle{color:var(–t2);font-style:italic}
+/* ── Main ────────────────────────────────── */
+main { max-width: 1360px; margin: 0 auto; padding: 1.8rem 1.5rem 5rem; }
 
-/* ─── Filter bar ─── */
-.fbar{display:flex;flex-wrap:wrap;gap:.38rem;margin-bottom:1.5rem;align-items:center}
-.flbl{font-size:.63rem;color:var(–t2);font-family:‘Space Mono’,monospace;letter-spacing:.12em;text-transform:uppercase;margin-right:.3rem}
-.fb{border:1px solid var(–b0);background:var(–surf);color:var(–t1);border-radius:20px;padding:.27rem .68rem;font-size:.7rem;font-family:‘Noto Sans KR’,sans-serif;cursor:pointer;transition:all .16s;white-space:nowrap}
-.fb:hover,.fb.on{background:var(–card2);color:var(–t0);border-color:var(–b1)}
+/* ── Notice ────────────────────────────── */
+.notice {
+background: #eef9f6; border: 1px solid #b2e4d8;
+border-radius: 12px; padding: .8rem 1.2rem;
+margin-bottom: 1.4rem; font-size: .76rem; line-height: 1.65; color: #1a6e5a;
+}
+.notice strong { color: #00a98a; }
+.notice code { background: rgba(0,0,0,.06); border-radius: 3px; padding: .05rem .3rem; font-size: .72rem; }
 
-/* ─── Section head ─── */
-.sh{display:flex;align-items:baseline;gap:.75rem;margin-bottom:1.15rem}
-.stitle{font-family:‘Space Mono’,monospace;font-size:.65rem;letter-spacing:.17em;text-transform:uppercase;color:var(–t2)}
-#pcount{font-family:‘Space Mono’,monospace;font-size:.65rem;color:var(–t2)}
+/* ── AI Briefing ────────────────────────── */
+.aibox {
+background: linear-gradient(135deg, #eef0fd, #eaf8f4);
+border: 1px solid #c8cdf5;
+border-radius: 16px; padding: 1.4rem 1.8rem;
+margin-bottom: 1.8rem;
+box-shadow: 0 2px 14px rgba(67,86,232,.06);
+}
+.ai-badge {
+display: inline-flex; align-items: center; gap: .32rem;
+background: rgba(67,86,232,.1); border: 1px solid rgba(67,86,232,.22);
+border-radius: 20px; padding: .24rem .7rem;
+font-size: .65rem; font-family: ‘Space Mono’, monospace; color: #4356e8;
+margin-bottom: .65rem; letter-spacing: .04em;
+}
+.dot { color: #00a98a; animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
+.ai-title { font-family: ‘Playfair Display’, serif; font-size: 1.1rem; color: #1a1a2e; margin-bottom: .5rem; }
+#aiText { font-size: .86rem; line-height: 1.85; color: #44445a; }
+#aiText.waiting { color: #9090aa; font-style: italic; }
 
-/* ─── Grid ─── */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:1.3rem}
+/* ── Progress ───────────────────────────── */
+#progWrap { margin-bottom: 1.2rem; display: none; }
+.progbar { height: 4px; background: #e0e2ea; border-radius: 2px; overflow: hidden; }
+.progfill { height: 100%; width: 0; background: linear-gradient(90deg, #4356e8, #00a98a); border-radius: 2px; transition: width .35s ease; }
+#progMsg { font-family: ‘Space Mono’, monospace; font-size: .63rem; color: #9090aa; margin-top: .4rem; }
 
-/* ─── Card ─── */
-.pc{background:var(–card);border:1px solid var(–b0);border-radius:15px;overflow:hidden;transition:transform .22s,box-shadow .22s,border-color .22s;opacity:0;animation:fu .42s forwards}
-.pc:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(0,0,0,.48);border-color:var(–b1)}
-@keyframes fu{to{opacity:1;transform:translateY(0)}}
-.pc:nth-child(1){animation-delay:.04s}.pc:nth-child(2){animation-delay:.09s}
-.pc:nth-child(3){animation-delay:.14s}.pc:nth-child(4){animation-delay:.19s}
-.pc:nth-child(5){animation-delay:.24s}.pc:nth-child(6){animation-delay:.29s}
-.pc:nth-child(7){animation-delay:.34s}.pc:nth-child(8){animation-delay:.39s}
-.pc:nth-child(9){animation-delay:.44s}
+/* ── Filter ─────────────────────────────── */
+.filterbar { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 1.4rem; align-items: center; }
+.flabel { font-family: ‘Space Mono’, monospace; font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: #9090aa; margin-right: .3rem; }
+.ftag {
+border: 1px solid #d8dae6; background: #fff;
+border-radius: 20px; padding: .26rem .68rem;
+font-size: .7rem; font-family: ‘Noto Sans KR’, sans-serif;
+color: #44445a; cursor: pointer; white-space: nowrap;
+transition: all .15s;
+box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.ftag:hover { background: #f0f1ff; border-color: #a0a8f0; color: #4356e8; }
+.ftag.on { background: #4356e8; border-color: #4356e8; color: #fff; box-shadow: 0 2px 8px rgba(67,86,232,.3); }
 
-.cstrip{height:3px}
-.cbody{padding:1.1rem 1.35rem 1.35rem}
-.cmeta{display:flex;align-items:center;gap:.4rem;margin-bottom:.68rem;flex-wrap:wrap}
-.jtag{padding:.2rem .58rem;border-radius:6px;font-family:‘Space Mono’,monospace;font-size:.61rem;font-weight:700;letter-spacing:.04em}
-.ytag{font-family:‘Space Mono’,monospace;font-size:.61rem;color:var(–t2);margin-left:auto}
-.ctitle{font-family:‘Playfair Display’,serif;font-size:.96rem;line-height:1.42;color:var(–t0);margin-bottom:.58rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.cauth{font-size:.67rem;color:var(–t2);font-family:‘Space Mono’,monospace;margin-bottom:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.slbl{font-size:.59rem;letter-spacing:.08em;text-transform:uppercase;font-family:‘Space Mono’,monospace;color:var(–ac2);margin-bottom:.28rem;opacity:.75}
-.csum{font-size:.8rem;line-height:1.72;color:var(–t1);margin-bottom:.9rem;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-.csum.loading{color:var(–t2);font-style:italic}
-.csum.err{color:#e06060;font-size:.74rem}
-.cfoot{display:flex;align-items:center;justify-content:space-between;padding-top:.82rem;border-top:1px solid var(–b0);gap:.45rem}
-.cdoi{font-size:.61rem;color:var(–t2);font-family:‘Space Mono’,monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0}
-.clink{display:inline-flex;align-items:center;gap:.32rem;padding:.32rem .8rem;border-radius:6px;font-size:.7rem;font-weight:500;color:#fff;text-decoration:none;transition:opacity .18s,transform .15s;white-space:nowrap;flex-shrink:0}
-.clink:hover{opacity:.8;transform:translateY(-1px)}
-.clink svg{width:10px;height:10px}
+/* ── Section head ───────────────────────── */
+.sechead { display: flex; align-items: baseline; gap: .7rem; margin-bottom: 1.1rem; }
+.sectitle { font-family: ‘Space Mono’, monospace; font-size: .63rem; letter-spacing: .15em; text-transform: uppercase; color: #9090aa; }
+#pcount { font-family: ‘Space Mono’, monospace; font-size: .63rem; color: #9090aa; }
 
-/* ─── State box ─── */
-.statebox{grid-column:1/-1;text-align:center;padding:4rem 2rem;color:var(–t2)}
-.statebox .ico{font-size:2.4rem;margin-bottom:.9rem;display:block}
-.statebox h3{font-family:‘Playfair Display’,serif;font-size:1.12rem;margin-bottom:.5rem;color:var(–t1)}
-.statebox p{font-size:.79rem;line-height:1.7;max-width:500px;margin:0 auto}
+/* ── Grid ───────────────────────────────── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(355px, 1fr)); gap: 1.25rem; }
 
-/* ─── Progress bar ─── */
-.progwrap{margin-bottom:1rem;display:none}
-.progbar{height:3px;background:var(–b0);border-radius:2px;overflow:hidden}
-.progfill{height:100%;background:linear-gradient(90deg,var(–ac),var(–ac2));border-radius:2px;transition:width .4s ease}
-.progtext{font-family:‘Space Mono’,monospace;font-size:.65rem;color:var(–t2);margin-top:.4rem}
+/* ── Card ───────────────────────────────── */
+.card {
+background: #ffffff;
+border: 1px solid #e2e4ee;
+border-radius: 15px; overflow: hidden;
+box-shadow: 0 2px 10px rgba(0,0,0,.06);
+transition: transform .2s, box-shadow .2s;
+opacity: 0; animation: fadeUp .4s forwards;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,.11); }
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.card:nth-child(1){animation-delay:.03s} .card:nth-child(2){animation-delay:.07s}
+.card:nth-child(3){animation-delay:.11s} .card:nth-child(4){animation-delay:.15s}
+.card:nth-child(5){animation-delay:.19s} .card:nth-child(6){animation-delay:.23s}
+.card:nth-child(7){animation-delay:.27s} .card:nth-child(8){animation-delay:.31s}
+.card:nth-child(9){animation-delay:.35s}
 
-/* ─── Spinner ─── */
-.sp{width:13px;height:13px;border:2px solid var(–b0);border-top-color:var(–ac);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:middle;margin-right:.4rem}
-@keyframes spin{to{transform:rotate(360deg)}}
+.card-top { height: 4px; }
+.card-body { padding: 1.1rem 1.3rem 1.3rem; }
 
-::-webkit-scrollbar{width:5px}
-::-webkit-scrollbar-track{background:var(–bg)}
-::-webkit-scrollbar-thumb{background:var(–b0);border-radius:3px}
+.card-meta { display: flex; align-items: center; gap: .4rem; margin-bottom: .65rem; flex-wrap: wrap; }
+.jtag {
+padding: .2rem .58rem; border-radius: 6px;
+font-family: ‘Space Mono’, monospace; font-size: .6rem; font-weight: 700; letter-spacing: .04em;
+}
+.ytag { font-family: ‘Space Mono’, monospace; font-size: .6rem; color: #9090aa; margin-left: auto; }
 
-@media(max-width:680px){
-.grid{grid-template-columns:1fr}
-.hi{padding:0 1rem}
-main{padding:1.2rem 1rem 4rem}
-.hdate{display:none}
+.card-title {
+font-family: ‘Playfair Display’, serif; font-size: .97rem; line-height: 1.44;
+color: #1a1a2e; margin-bottom: .55rem;
+display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-auth {
+font-size: .66rem; color: #9090aa; font-family: ‘Space Mono’, monospace;
+margin-bottom: .65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sum-label {
+font-size: .58rem; letter-spacing: .08em; text-transform: uppercase;
+font-family: ‘Space Mono’, monospace; color: #00a98a; font-weight: 700;
+margin-bottom: .28rem;
+}
+.card-sum {
+font-size: .81rem; line-height: 1.74; color: #44445a; margin-bottom: .9rem;
+display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-sum.pending { color: #9090aa; font-style: italic; }
+.card-sum.fail    { color: #c03030; font-size: .74rem; }
+
+.card-foot {
+display: flex; align-items: center; justify-content: space-between;
+padding-top: .8rem; border-top: 1px solid #eef0f6; gap: .4rem;
+}
+.card-doi { font-size: .6rem; color: #b0b0c0; font-family: ‘Space Mono’, monospace; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-link {
+display: inline-flex; align-items: center; gap: .3rem;
+padding: .32rem .85rem; border-radius: 7px;
+font-size: .7rem; font-weight: 600; color: #fff; text-decoration: none;
+flex-shrink: 0; white-space: nowrap;
+box-shadow: 0 2px 6px rgba(0,0,0,.15);
+transition: opacity .15s, transform .15s;
+}
+.card-link:hover { opacity: .82; transform: translateY(-1px); }
+.card-link svg { width: 10px; height: 10px; }
+
+/* ── Empty/Error state ──────────────────── */
+.empty {
+grid-column: 1/-1; text-align: center; padding: 4rem 2rem;
+color: #9090aa;
+}
+.empty-icon { font-size: 2.5rem; display: block; margin-bottom: .9rem; }
+.empty h3 { font-family: ‘Playfair Display’, serif; font-size: 1.1rem; color: #44445a; margin-bottom: .45rem; }
+.empty p  { font-size: .78rem; line-height: 1.7; max-width: 460px; margin: 0 auto; }
+
+/* ── Spinner ────────────────────────────── */
+.sp {
+display: inline-block; width: 12px; height: 12px;
+border: 2px solid #d8dae6; border-top-color: #4356e8;
+border-radius: 50%; animation: spin .65s linear infinite;
+vertical-align: middle; margin-right: .35rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f0f2f7; }
+::-webkit-scrollbar-thumb { background: #ccd; border-radius: 3px; }
+
+@media (max-width: 680px) {
+.grid { grid-template-columns: 1fr; }
+.hinner { padding: 0 1rem; }
+main { padding: 1.2rem 1rem 4rem; }
+.hdate { display: none; }
 }
 </style>
 
 </head>
 <body>
+
 <header>
-  <div class="hi">
+  <div class="hinner">
     <div class="logo">
-      <div class="lmark">⚛</div>
-      <div><div class="lname">AI×Materials Daily</div><div class="lsub">CrossRef API · 실제 논문</div></div>
+      <div class="logo-icon">⚛</div>
+      <div>
+        <div class="logo-name">AI×Materials Daily</div>
+        <div class="logo-sub">CrossRef API · 실제 논문</div>
+      </div>
     </div>
     <div class="hdate" id="hdate"></div>
-    <button class="go-btn" id="goBtn" onclick="startFetch()">⏳ 불러오는 중...</button>
+    <button class="reload-btn" id="reloadBtn" onclick="load()">🔄 새 논문 보기</button>
   </div>
 </header>
 
 <main>
-  <!-- How it works -->
-  <div class="how">
-    <strong>📌 동작 방식</strong> — <strong>CrossRef 공개 API</strong> (<code>api.crossref.org</code>)에서 각 저널 ISSN으로 실제 출판된 논문을 검색합니다.
-    API 키 불필요, CORS 완전 허용. 날짜 seed로 AI·재료 관련 논문 1편씩 선정하고,
-    <strong>Claude AI</strong>가 영문 초록을 한국어로 번역·요약합니다.
-    DOI 링크는 CrossRef에서 제공한 실제 주소를 사용합니다.
-  </div>
 
-  <!-- AI Briefing -->
+  <div class="notice">
+    <strong>📌 동작 방식</strong> —
+    <strong>CrossRef 공개 API</strong>(<code>api.crossref.org</code>)에서 각 저널 ISSN으로 실제 논문을 검색합니다.
+    새로고침할 때마다 랜덤으로 다른 논문이 선정되며, <strong>Claude AI</strong>가 영문 초록을 한국어로 번역·요약합니다.
+  </div>
 
   <div class="aibox">
-    <div class="aibadge"><span class="blink">●</span> AI DAILY BRIEFING</div>
-    <div class="aititle">오늘의 융합연구 브리핑</div>
-    <div id="aiText" class="idle">논문을 불러온 후 AI 브리핑이 자동 생성됩니다.</div>
+    <div class="ai-badge"><span class="dot">●</span> AI DAILY BRIEFING</div>
+    <div class="ai-title">오늘의 융합연구 브리핑</div>
+    <div id="aiText" class="waiting">논문을 불러오는 중입니다...</div>
   </div>
 
-  <!-- Progress -->
-
-  <div class="progwrap" id="progwrap">
-    <div class="progbar"><div class="progfill" id="progfill" style="width:0%"></div></div>
-    <div class="progtext" id="progtext">준비 중...</div>
+  <div id="progWrap">
+    <div class="progbar"><div class="progfill" id="progFill"></div></div>
+    <div id="progMsg">준비 중...</div>
   </div>
 
-  <!-- Filter -->
-
-  <div class="fbar">
-    <span class="flbl">저널</span>
-    <button class="fb on" onclick="setFilter(this,'all')">전체</button>
-    <button class="fb" onclick="setFilter(this,'Science')">Science</button>
-    <button class="fb" onclick="setFilter(this,'Nature')">Nature</button>
-    <button class="fb" onclick="setFilter(this,'Nature Communications')">Nat. Comm</button>
-    <button class="fb" onclick="setFilter(this,'Science Advances')">Sci. Advances</button>
-    <button class="fb" onclick="setFilter(this,'Advanced Materials')">Adv. Materials</button>
-    <button class="fb" onclick="setFilter(this,'Advanced Functional Materials')">Adv. Funct. Mat.</button>
-    <button class="fb" onclick="setFilter(this,'Science Robotics')">Sci. Robotics</button>
-    <button class="fb" onclick="setFilter(this,'Nature Electronics')">Nat. Electronics</button>
-    <button class="fb" onclick="setFilter(this,'Nature Machine Intelligence')">Nat. Mach. Intell.</button>
+  <div class="filterbar">
+    <span class="flabel">저널</span>
+    <button class="ftag on"  onclick="setFilter(this,'all')">전체</button>
+    <button class="ftag" onclick="setFilter(this,'Science')">Science</button>
+    <button class="ftag" onclick="setFilter(this,'Nature')">Nature</button>
+    <button class="ftag" onclick="setFilter(this,'Nature Communications')">Nat. Comm</button>
+    <button class="ftag" onclick="setFilter(this,'Science Advances')">Sci. Advances</button>
+    <button class="ftag" onclick="setFilter(this,'Advanced Materials')">Adv. Materials</button>
+    <button class="ftag" onclick="setFilter(this,'Advanced Functional Materials')">Adv. Funct. Mat.</button>
+    <button class="ftag" onclick="setFilter(this,'Science Robotics')">Sci. Robotics</button>
+    <button class="ftag" onclick="setFilter(this,'Nature Electronics')">Nat. Electronics</button>
+    <button class="ftag" onclick="setFilter(this,'Nature Machine Intelligence')">Nat. Mach. Intell.</button>
   </div>
 
-  <div class="sh">
-    <span class="stitle">Today's Papers</span>
-    <span id="pcount">—</span>
+  <div class="sechead">
+    <span class="sectitle">TODAY'S PAPERS</span>
+    <span id="pcount"></span>
   </div>
 
   <div class="grid" id="grid">
-    <div class="statebox">
-      <span class="ico">⏳</span>
+    <div class="empty">
+      <span class="empty-icon">⏳</span>
       <h3>논문 불러오는 중...</h3>
-      <p>CrossRef API에서 실제 출판된 논문을 가져오고 있습니다.</p>
+      <p>CrossRef API에서 실제 출판된 논문을 검색하고 있습니다.</p>
     </div>
   </div>
+
 </main>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// JOURNAL CONFIG
-// CrossRef REST API: https://api.crossref.org/journals/{ISSN}/works
-// No API key needed, CORS fully open, returns real DOIs
-// ═══════════════════════════════════════════════════════════════
+// ──────────────────────────────────────────────────────────────
+// JOURNAL CONFIG  (CrossRef ISSN + search keywords)
+// ──────────────────────────────────────────────────────────────
 const JOURNALS = [
-  {
-    id: 'Science',
-    short: 'Science',
-    color: '#f87171',
-    bg: 'rgba(248,113,113,.13)',
-    issn: '0036-8075',         // Science
-    altIssn: '1095-9203',      // Science (electronic)
-    query: 'artificial intelligence machine learning materials robotics',
-  },
-  {
-    id: 'Nature',
-    short: 'Nature',
-    color: '#34d399',
-    bg: 'rgba(52,211,153,.13)',
-    issn: '0028-0836',
-    altIssn: '1476-4687',
-    query: 'machine learning artificial intelligence materials robotics sensor',
-  },
-  {
-    id: 'Nature Communications',
-    short: 'Nat. Comm.',
-    color: '#60a5fa',
-    bg: 'rgba(96,165,250,.13)',
-    issn: '2041-1723',
-    query: 'machine learning deep learning neural network materials robotics',
-  },
-  {
-    id: 'Science Advances',
-    short: 'Sci. Adv.',
-    color: '#86efac',
-    bg: 'rgba(134,239,172,.13)',
-    issn: '2375-2548',
-    query: 'artificial intelligence machine learning materials sensor robot',
-  },
-  {
-    id: 'Advanced Materials',
-    short: 'Adv. Mat.',
-    color: '#fbbf24',
-    bg: 'rgba(251,191,36,.13)',
-    issn: '0935-9648',
-    altIssn: '1521-4095',
-    query: 'machine learning artificial intelligence deep learning neural',
-  },
-  {
-    id: 'Advanced Functional Materials',
-    short: 'AFM',
-    color: '#f0abfc',
-    bg: 'rgba(240,171,252,.13)',
-    issn: '1616-3028',
-    altIssn: '1616-301X',
-    query: 'machine learning artificial intelligence neural network smart',
-  },
-  {
-    id: 'Science Robotics',
-    short: 'Sci. Rob.',
-    color: '#7dd3fc',
-    bg: 'rgba(125,211,252,.13)',
-    issn: '2470-9476',
-    query: 'machine learning deep learning artificial intelligence autonomous',
-  },
-  {
-    id: 'Nature Electronics',
-    short: 'Nat. Elec.',
-    color: '#a78bfa',
-    bg: 'rgba(167,139,250,.13)',
-    issn: '2520-1131',
-    query: 'machine learning neuromorphic artificial intelligence deep learning',
-  },
-  {
-    id: 'Nature Machine Intelligence',
-    short: 'Nat. MI',
-    color: '#2dd4bf',
-    bg: 'rgba(45,212,191,.13)',
-    issn: '2522-5839',
-    query: 'materials chemistry robotics synthesis drug protein electronic',
-  },
+  { id:'Science',                       short:'Science',    issn:'0036-8075', color:'#e05252', bg:'#fff0f0',
+    q:'artificial intelligence machine learning materials robotics sensor' },
+  { id:'Nature',                        short:'Nature',     issn:'0028-0836', color:'#2a9d6e', bg:'#edfaf4',
+    q:'machine learning artificial intelligence materials robotics sensor' },
+  { id:'Nature Communications',         short:'Nat.Comm',   issn:'2041-1723', color:'#3a80d2', bg:'#edf4ff',
+    q:'machine learning deep learning neural network materials robotics' },
+  { id:'Science Advances',              short:'Sci.Adv.',   issn:'2375-2548', color:'#4caf7d', bg:'#edfaf3',
+    q:'artificial intelligence machine learning materials sensor robot' },
+  { id:'Advanced Materials',            short:'Adv.Mat.',   issn:'0935-9648', color:'#e0922a', bg:'#fff8ee',
+    q:'machine learning artificial intelligence deep learning neural' },
+  { id:'Advanced Functional Materials', short:'AFM',        issn:'1616-3028', color:'#b44ec8', bg:'#fdf2ff',
+    q:'machine learning artificial intelligence neural network smart' },
+  { id:'Science Robotics',              short:'Sci.Rob.',   issn:'2470-9476', color:'#1e9ed4', bg:'#edf8ff',
+    q:'machine learning deep learning artificial intelligence autonomous' },
+  { id:'Nature Electronics',            short:'Nat.Elec.',  issn:'2520-1131', color:'#7b68ee', bg:'#f4f2ff',
+    q:'machine learning neuromorphic artificial intelligence in-memory' },
+  { id:'Nature Machine Intelligence',   short:'Nat.MI',     issn:'2522-5839', color:'#1bada0', bg:'#edfaf9',
+    q:'materials chemistry robotics synthesis drug protein electronic' },
 ];
 
-// CrossRef API base — CORS fully open, no proxy needed
 const CR = 'https://api.crossref.org/journals';
-// polite pool: include mailto
 const MAILTO = 'mailto=aimaterialsdaily@example.com';
 
-// ─── Seeded daily random ───────────────────────────────────────
-function srand(seed) {
-  const x = Math.sin(seed * 9301 + 49297) * 233280;
-  return x - Math.floor(x);
-}
-function todaySeed() {
-  const d = new Date();
-  return d.getFullYear() * 10000 + (d.getMonth()+1)*100 + d.getDate();
-}
-
-// ─── State ────────────────────────────────────────────────────
 let papers = [];
 let curFilter = 'all';
-let running = false;
-let doneCount = 0;
+let busy = false;
 
-// ─── Start fetch ──────────────────────────────────────────────
-async function startFetch() {
-  if (running) return;
-  running = true;
-  doneCount = 0;
-  papers = [];
+// ──────────────────────────────────────────────────────────────
+// LOAD  (random pick every call — no date seed)
+// ──────────────────────────────────────────────────────────────
+async function load() {
+  if (busy) return;
+  busy = true;
 
-  const btn = document.getElementById('goBtn');
+  const btn = document.getElementById('reloadBtn');
   btn.disabled = true;
-  btn.textContent = '⏳ 수집 중...';
+  btn.textContent = '⏳ 불러오는 중...';
 
-  const pw = document.getElementById('progwrap');
-  pw.style.display = 'block';
+  papers = [];
+  showProg(true);
   setProgress(0, '각 저널에 연결 중...');
 
-  document.getElementById('aiText').className = 'idle';
-  document.getElementById('aiText').textContent = '논문 수집 중...';
+  document.getElementById('aiText').className = 'waiting';
+  document.getElementById('aiText').textContent = '논문을 불러오는 중입니다...';
 
-  renderGrid(); // show loading skeleton
+  renderGrid();
 
-  // Fetch all journals in parallel
-  await Promise.allSettled(
-    JOURNALS.map((j, i) => fetchJournalPaper(j, i).then(p => {
+  // fetch all journals in parallel
+  let done = 0;
+  const results = await Promise.allSettled(
+    JOURNALS.map(j => fetchOne(j).then(p => {
       papers.push(p);
-      doneCount++;
-      setProgress(
-        Math.round(doneCount / JOURNALS.length * 60),
-        `${doneCount}/${JOURNALS.length} 저널 수집 완료`
-      );
+      done++;
+      setProgress(Math.round(done / JOURNALS.length * 55), `${done}/${JOURNALS.length} 저널 수집 완료`);
     }))
   );
 
-  // Sort by journal original order
+  // sort back to original journal order
   papers.sort((a, b) =>
-    JOURNALS.findIndex(j=>j.id===a.journal.id) - JOURNALS.findIndex(j=>j.id===b.journal.id)
+    JOURNALS.findIndex(j => j.id === a.journal.id) -
+    JOURNALS.findIndex(j => j.id === b.journal.id)
   );
-  papers.forEach((p, i) => p._rid = i);
+  papers.forEach((p, i) => p._id = i);
 
   renderGrid();
 
   btn.disabled = false;
-  btn.textContent = '🔄 오늘의 논문 갱신';
-  running = false;
+  btn.textContent = '🔄 새 논문 보기';
+  busy = false;
 
-  // Generate AI summaries then briefing
-  await generateSummaries();
-  setProgress(100, '완료');
-  setTimeout(() => { pw.style.display = 'none'; }, 1200);
+  // AI summaries (each card) then briefing
+  await runSummaries();
 }
 
-// ─── Fetch one journal via CrossRef ───────────────────────────
-async function fetchJournalPaper(j, idx) {
-  // CrossRef journals/{ISSN}/works?query=...&filter=from-pub-date:2020-01-01
-  // sort by published-desc so we get recent papers
-  // rows=80 gives enough to pick from
-  const issn = j.issn;
-  const q = encodeURIComponent(j.query);
-  const url = `${CR}/${issn}/works?query=${q}&filter=from-pub-date:2020-01-01&sort=published&order=desc&rows=80&select=DOI,title,author,published,abstract,URL,container-title&${MAILTO}`;
-
+// ──────────────────────────────────────────────────────────────
+// CrossRef fetch — truly random each time
+// ──────────────────────────────────────────────────────────────
+async function fetchOne(j) {
+  const q  = encodeURIComponent(j.q);
+  const url = `${CR}/${j.issn}/works?query=${q}&filter=from-pub-date:2020-01-01` +
+              `&sort=relevance&rows=100` +
+              `&select=DOI,title,author,published,abstract,URL&${MAILTO}`;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(18000) });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const items = data?.message?.items || [];
+    const r = await fetch(url, { signal: AbortSignal.timeout(20000) });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const d = await r.json();
+    const items = (d?.message?.items || []).filter(it =>
+      it.title?.[0] && it.title[0].length > 30
+    );
     if (!items.length) throw new Error('결과 없음');
 
-    // Filter: must have title, must be research articles (not editorials)
-    const valid = items.filter(it =>
-      it.title && it.title[0] &&
-      it.title[0].length > 30        // skip very short titles (editorials, corrections)
-    );
-    if (!valid.length) throw new Error('유효한 논문 없음');
+    // TRUE random pick (different every load)
+    const pick = items[Math.floor(Math.random() * items.length)];
 
-    // Pick deterministically by date seed
-    const seed = todaySeed() + idx * 137 + idx * idx * 7;
-    const pick = valid[Math.floor(srand(seed) * valid.length)];
-
-    // Build authors string
-    const authors = (pick.author || [])
-      .slice(0, 4)
-      .map(a => `${a.family || ''} ${(a.given||'').charAt(0)}.`.trim())
+    const authors = (pick.author || []).slice(0, 4)
+      .map(a => `${a.family || ''} ${(a.given || '').charAt(0)}.`.trim())
       .join(', ') + (pick.author?.length > 4 ? ' et al.' : '');
 
-    // Published year
-    const year = pick.published?.['date-parts']?.[0]?.[0]
-                || pick['published-print']?.['date-parts']?.[0]?.[0]
-                || '';
+    const year = pick.published?.['date-parts']?.[0]?.[0] || '';
+    const doi  = pick.DOI || '';
+    const link = doi ? `https://doi.org/${doi}` : (pick.URL || '#');
+    const abs  = (pick.abstract || '')
+      .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-    const doi = pick.DOI || '';
-    const url2 = doi ? `https://doi.org/${doi}` : (pick.URL || '#');
-    const abstract = (pick.abstract || '')
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    return {
-      journal: j,
-      title: pick.title[0],
-      authors,
-      year,
-      doi,
-      url: url2,
-      abstract,
-      summaryKo: null,
-      _rid: null,
-    };
+    return { journal: j, title: pick.title[0], authors, year, doi, link, abstract: abs, summaryKo: null, _id: null };
   } catch (e) {
-    // Try with alternate ISSN if available
-    if (j.altIssn && e.message !== '_tried_alt') {
-      const j2 = { ...j, issn: j.altIssn };
-      try { return await fetchJournalPaper(j2, idx); } catch(e2) {}
-    }
-    return {
-      journal: j,
-      title: null,
-      error: e.message,
-      _rid: null,
-    };
+    return { journal: j, title: null, error: e.message, _id: null };
   }
 }
 
-// ─── Render grid ──────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────
+// Render grid
+// ──────────────────────────────────────────────────────────────
 function renderGrid() {
-  const grid = document.getElementById('grid');
+  const g = document.getElementById('grid');
   const shown = curFilter === 'all'
     ? papers
     : papers.filter(p => p.journal.id === curFilter);
 
-  const valid = shown.filter(p => p.title).length;
-  document.getElementById('pcount').textContent = papers.length ? `${valid} 논문` : '—';
+  document.getElementById('pcount').textContent =
+    papers.length ? `${shown.filter(p => p.title).length} 논문` : '';
 
   if (!papers.length) {
-    grid.innerHTML = `<div class="statebox"><span class="ico">⏳</span><h3>수집 중...</h3><p>CrossRef API에서 논문 데이터를 가져오고 있습니다.</p></div>`;
+    g.innerHTML = `<div class="empty"><span class="empty-icon">⏳</span><h3>수집 중...</h3><p>잠시만 기다려 주세요.</p></div>`;
     return;
   }
   if (!shown.length) {
-    grid.innerHTML = `<div class="statebox"><span class="ico">🔍</span><h3>해당 저널 없음</h3><p>이 필터에 해당하는 논문이 없습니다.</p></div>`;
+    g.innerHTML = `<div class="empty"><span class="empty-icon">🔍</span><h3>해당 저널 없음</h3><p>이 필터에 해당하는 논문이 없습니다.</p></div>`;
     return;
   }
-  grid.innerHTML = shown.map((p, i) => cardHTML(p, i)).join('');
+  g.innerHTML = shown.map((p, i) => cardHTML(p, i)).join('');
 }
 
 function cardHTML(p, i) {
   const j = p.journal;
   if (!p.title) {
-    return `<div class="pc" style="animation-delay:${i*.06}s">
-      <div class="cstrip" style="background:${j.color}44"></div>
-      <div class="cbody">
-        <div class="cmeta"><span class="jtag" style="background:${j.bg};color:${j.color}">${j.short}</span></div>
-        <div class="ctitle" style="color:var(--t2)">수집 실패</div>
-        <div class="csum err">⚠ ${esc(p.error)}</div>
-        <div class="cfoot">
-          <a href="https://api.crossref.org/journals/${j.issn}/works" target="_blank" rel="noopener"
-             style="font-size:.68rem;color:${j.color}">CrossRef 저널 페이지 →</a>
+    return `<div class="card" style="animation-delay:${i*.05}s">
+      <div class="card-top" style="background:${j.color}44"></div>
+      <div class="card-body">
+        <div class="card-meta"><span class="jtag" style="background:${j.bg};color:${j.color}">${j.short}</span></div>
+        <div class="card-title" style="color:#9090aa">수집 실패</div>
+        <div class="card-sum fail">⚠ ${e(p.error)}<br>
+          <a href="https://www.crossref.org/search?q=${encodeURIComponent(j.q)}" target="_blank" rel="noopener" style="color:${j.color}">
+            CrossRef에서 직접 검색 →
+          </a>
         </div>
-      </div></div>`;
+      </div>
+    </div>`;
   }
+  const shortDoi = p.doi ? (p.doi.length > 40 ? p.doi.slice(0,40)+'…' : p.doi) : '';
+  const sumPart = p.summaryKo
+    ? `<div class="sum-label">AI 한국어 요약</div><div class="card-sum">${e(p.summaryKo)}</div>`
+    : `<div class="card-sum pending" id="s${p._id}"><span class="sp"></span>AI 한국어 요약 생성 중...</div>`;
 
-  const shortDoi = p.doi.substring(0, 40) + (p.doi.length > 40 ? '…' : '');
-  const sumHTML = p.summaryKo
-    ? `<div class="slbl">AI 한국어 요약</div><div class="csum">${esc(p.summaryKo)}</div>`
-    : `<div class="csum loading" id="s${p._rid}"><span class="sp"></span>AI 요약 생성 중...</div>`;
-
-  return `<div class="pc" data-jid="${esc(j.id)}" style="animation-delay:${i*.06}s">
-    <div class="cstrip" style="background:linear-gradient(90deg,${j.color},${j.color}55)"></div>
-    <div class="cbody">
-      <div class="cmeta">
-        <span class="jtag" style="background:${j.bg};color:${j.color};border:1px solid ${j.color}30">${j.short}</span>
+  return `<div class="card" data-j="${e(j.id)}" style="animation-delay:${i*.05}s">
+    <div class="card-top" style="background:linear-gradient(90deg,${j.color},${j.color}88)"></div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="jtag" style="background:${j.bg};color:${j.color};border:1px solid ${j.color}44">${j.short}</span>
         ${p.year ? `<span class="ytag">${p.year}</span>` : ''}
       </div>
-      <div class="ctitle">${esc(p.title)}</div>
-      ${p.authors ? `<div class="cauth">${esc(p.authors)}</div>` : ''}
-      ${sumHTML}
-      <div class="cfoot">
-        <div class="cdoi" title="${esc(p.doi)}">${shortDoi}</div>
-        <a href="${esc(p.url)}" target="_blank" rel="noopener"
-           class="clink" style="background:linear-gradient(135deg,${j.color}cc,${j.color}77)">
+      <div class="card-title">${e(p.title)}</div>
+      ${p.authors ? `<div class="card-auth">${e(p.authors)}</div>` : ''}
+      ${sumPart}
+      <div class="card-foot">
+        <div class="card-doi" title="${e(p.doi)}">${shortDoi}</div>
+        <a href="${e(p.link)}" target="_blank" rel="noopener"
+           class="card-link" style="background:linear-gradient(135deg,${j.color},${j.color}bb)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
-            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
           </svg>원문
         </a>
       </div>
-    </div></div>`;
+    </div>
+  </div>`;
 }
 
-// ─── AI Summaries via Anthropic API ───────────────────────────
-async function generateSummaries() {
+// ──────────────────────────────────────────────────────────────
+// AI summaries via Anthropic API
+// ──────────────────────────────────────────────────────────────
+async function runSummaries() {
   const valid = papers.filter(p => p.title);
   if (!valid.length) return;
 
   let done = 0;
+  // Run summaries in parallel
   await Promise.allSettled(valid.map(async p => {
-    await summarizeOne(p);
+    await summarize(p);
     done++;
-    setProgress(60 + Math.round(done / valid.length * 35),
-      `AI 요약 생성 중 (${done}/${valid.length})`);
+    setProgress(55 + Math.round(done / valid.length * 40), `AI 요약 ${done}/${valid.length} 완료`);
   }));
 
-  await makeBriefing(valid);
+  // After all summaries, generate daily briefing
+  await briefing(valid);
+
+  setProgress(100, '완료!');
+  setTimeout(() => showProg(false), 1000);
 }
 
-async function summarizeOne(p) {
-  const snip = p.abstract ? p.abstract.substring(0, 700) : '';
-  if (!snip) { p.summaryKo = '(초록 없음 — 원문 링크로 확인하세요)'; updateSum(p); return; }
+async function summarize(p) {
+  if (!p.abstract) {
+    p.summaryKo = '(초록 없음 — 원문 링크에서 확인하세요)';
+    patchSum(p);
+    return;
+  }
 
-  const prompt = `다음 학술 논문의 초록을 한국어로 2~3문장, 핵심만 간결하게 요약해주세요.
-재료과학·AI·로봇공학 연구자를 독자로 가정하고 자연스러운 한국어로 작성하세요.
-제목·저자는 반복하지 말고, 연구 내용과 의의만 서술하세요.
+  const prompt =
+`아래 학술 논문의 초록을 한국어로 2~3문장, 핵심 내용만 자연스럽게 요약해 주세요.
+재료과학·AI·로봇공학 연구자를 독자로 가정합니다.
+제목·저자는 반복하지 말고, 연구 내용과 의의만 간결하게 서술하세요.
 
 저널: ${p.journal.id}
 제목: ${p.title}
-초록: ${snip}
+초록: ${p.abstract.slice(0, 800)}
 
 한국어 요약:`;
 
@@ -511,38 +501,45 @@ async function summarizeOne(p) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 400,
         messages: [{ role: 'user', content: prompt }]
       })
     });
-    if (!res.ok) throw new Error(`API ${res.status}`);
+    if (!res.ok) {
+      const errBody = await res.text();
+      throw new Error(`API ${res.status}: ${errBody.slice(0,120)}`);
+    }
     const data = await res.json();
     p.summaryKo = data.content?.find(b => b.type === 'text')?.text?.trim() || '요약 없음';
-  } catch(e) {
-    p.summaryKo = snip.substring(0, 200) + '…\n(AI 요약 실패 — 원문 초록 일부 표시)';
+  } catch (err) {
+    // Fallback: show original abstract snippet in Korean note
+    p.summaryKo = `(AI 요약 실패) ${p.abstract.slice(0, 200)}…`;
   }
-  updateSum(p);
+  patchSum(p);
 }
 
-function updateSum(p) {
-  const el = document.getElementById(`s${p._rid}`);
+function patchSum(p) {
+  const el = document.getElementById(`s${p._id}`);
   if (el) {
-    el.outerHTML = `<div class="slbl">AI 한국어 요약</div><div class="csum">${esc(p.summaryKo)}</div>`;
+    el.outerHTML =
+      `<div class="sum-label">AI 한국어 요약</div>` +
+      `<div class="card-sum">${e(p.summaryKo)}</div>`;
   }
 }
 
-async function makeBriefing(plist) {
+async function briefing(plist) {
   const aiEl = document.getElementById('aiText');
-  aiEl.className = 'idle';
-  aiEl.innerHTML = '<span class="sp"></span>브리핑 생성 중...';
+  aiEl.className = 'waiting';
+  aiEl.innerHTML = '<span class="sp"></span>AI 브리핑 생성 중...';
 
   const list = plist.map((p, i) =>
-    `[${i+1}] ${p.journal.id} (${p.year||''}): "${p.title}" — ${(p.summaryKo || p.abstract || '').substring(0, 120)}`
+    `[${i+1}] ${p.journal.id}(${p.year}): "${p.title}" — ${(p.summaryKo || p.abstract || '').slice(0, 120)}`
   ).join('\n');
 
-  const prompt = `당신은 AI·재료과학·로봇공학 융합연구 전문 과학저널리스트입니다.
-아래 오늘의 실제 논문들을 바탕으로, 청취자에게 오늘의 연구 동향을 소개하는
-자연스럽고 지적인 한국어 한 문단(180~220자)을 작성하세요.
+  const prompt =
+`당신은 AI·재료과학·로봇공학 융합연구 전문 과학저널리스트입니다.
+아래 오늘의 실제 논문 목록을 바탕으로,
+팟캐스트 진행자처럼 오늘의 연구 동향을 소개하는 자연스럽고 지적인 한국어 한 문단(200자 내외)을 작성하세요.
 개별 논문 나열 금지. 공통 주제와 트렌드 중심으로 통합 서술하세요.
 
 논문 목록:
@@ -556,7 +553,7 @@ ${list}
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 600,
         messages: [{ role: 'user', content: prompt }]
       })
     });
@@ -565,42 +562,46 @@ ${list}
     const text = data.content?.find(b => b.type === 'text')?.text?.trim() || '';
     aiEl.className = '';
     aiEl.textContent = text || '브리핑 생성 실패';
-  } catch(e) {
-    aiEl.className = 'idle';
-    aiEl.textContent = `브리핑 생성 실패 (${e.message})`;
+  } catch (err) {
+    aiEl.className = '';
+    aiEl.textContent = '오늘도 AI·재료·로봇 융합 분야에서 흥미로운 연구들이 발표되었습니다. 아래 각 카드의 한국어 요약을 참고하세요.';
   }
 }
 
-// ─── Progress ─────────────────────────────────────────────────
-function setProgress(pct, msg) {
-  document.getElementById('progfill').style.width = pct + '%';
-  document.getElementById('progtext').textContent = msg;
-}
-
-// ─── Filter ───────────────────────────────────────────────────
-function setFilter(btn, filter) {
-  document.querySelectorAll('.fb').forEach(b => b.classList.remove('on'));
+// ──────────────────────────────────────────────────────────────
+// Filter / UI helpers
+// ──────────────────────────────────────────────────────────────
+function setFilter(btn, f) {
+  document.querySelectorAll('.ftag').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  curFilter = filter;
+  curFilter = f;
   renderGrid();
 }
 
-// ─── Utils ────────────────────────────────────────────────────
-function esc(s) {
+function showProg(v) {
+  document.getElementById('progWrap').style.display = v ? 'block' : 'none';
+}
+function setProgress(pct, msg) {
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progMsg').textContent = msg;
+}
+
+function e(s) {
   if (!s) return '';
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ─── Init ─────────────────────────────────────────────────────
-(function() {
+// ──────────────────────────────────────────────────────────────
+// INIT — auto-load on page open
+// ──────────────────────────────────────────────────────────────
+(function init() {
   const d = new Date();
-  const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
-  document.getElementById('hdate').textContent = d.toLocaleDateString('ko-KR', opts);
+  document.getElementById('hdate').textContent =
+    d.toLocaleDateString('ko-KR', { year:'numeric', month:'long', day:'numeric', weekday:'short' });
   document.title = `AI×Materials Daily — ${d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'})}`;
-  // Auto-fetch on page load
-  startFetch();
+  load();
 })();
 </script>
 
