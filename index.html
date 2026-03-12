@@ -125,7 +125,7 @@ main{padding:1.2rem 1rem 4rem}
       <div><div class="lname">AI×Materials Daily</div><div class="lsub">CrossRef API · 실제 논문</div></div>
     </div>
     <div class="hdate" id="hdate"></div>
-    <button class="go-btn" id="goBtn" onclick="startFetch()">📡 논문 불러오기</button>
+    <button class="go-btn" id="goBtn" onclick="startFetch()">⏳ 불러오는 중...</button>
   </div>
 </header>
 
@@ -176,9 +176,9 @@ main{padding:1.2rem 1rem 4rem}
 
   <div class="grid" id="grid">
     <div class="statebox">
-      <span class="ico">📡</span>
-      <h3>논문을 불러오세요</h3>
-      <p>상단 "논문 불러오기" 버튼을 누르면<br>CrossRef API에서 실제 출판된 논문을 가져옵니다.</p>
+      <span class="ico">⏳</span>
+      <h3>논문 불러오는 중...</h3>
+      <p>CrossRef API에서 실제 출판된 논문을 가져오고 있습니다.</p>
     </div>
   </div>
 </main>
@@ -330,7 +330,7 @@ async function startFetch() {
   renderGrid();
 
   btn.disabled = false;
-  btn.textContent = '🔄 다시 불러오기';
+  btn.textContent = '🔄 오늘의 논문 갱신';
   running = false;
 
   // Generate AI summaries then briefing
@@ -599,6 +599,8 @@ function esc(s) {
   const opts = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
   document.getElementById('hdate').textContent = d.toLocaleDateString('ko-KR', opts);
   document.title = `AI×Materials Daily — ${d.toLocaleDateString('ko-KR',{month:'long',day:'numeric'})}`;
+  // Auto-fetch on page load
+  startFetch();
 })();
 </script>
 
